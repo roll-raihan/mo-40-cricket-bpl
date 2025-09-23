@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import nameImg from '../../assets/user-1.png';
 import flagImg from '../../assets/report-1.png'
 
-const PlayerCard = ({player}) => {
+const PlayerCard = ({ player, setAvailableBalance, availableBalance }) => {
+    const [isSeleected, setIsSelected] = useState(false);
     return (
         <div className="card bg-base-100 w-96 shadow-sm p-4 rounded-2xl">
             <figure>
@@ -12,13 +13,13 @@ const PlayerCard = ({player}) => {
             </figure>
             <div className="">
                 <div className='flex items-center mt-2'>
-                    <img className='w-[20px] h-[20px] mr-2' src={nameImg} alt="" />
+                    <img className='w-[20px] h-[20px] mr-2 bg-white' src={nameImg} alt="" />
                     <h2 className="card-title">{player.name}</h2>
                 </div>
                 <div className='flex justify-between items-center mt-2 border-b-1 border-gray-400'>
-                    <div className='flex gap-2 mt-2'>
+                    <div className='flex gap-2 mt-2 bg-white'>
                         <img src={flagImg} alt="" />
-                        <p>{player.country}</p>
+                        <p className='text-black'>{player.country}</p>
                     </div>
                     <p className='btn border-none shadow-none'>{player.playing_role}</p>
                 </div>
@@ -29,7 +30,14 @@ const PlayerCard = ({player}) => {
                 </div>
                 <div className="flex justify-between items-center mt-2">
                     <p className='font-bold'>Price: {player.price}</p>
-                    <p className='btn border-none'>Choose Player</p>
+                    <button disabled={isSeleected} onClick={() => {
+                        if(availableBalance<player.price.split("$").join("").split(",").join("")){
+                            alert("Not sufficient coin!");
+                            return
+                        }
+                        setIsSelected(true);
+                        setAvailableBalance(availableBalance - player.price.split("$").join("").split(",").join(""))
+                    }} className='btn border-none'>{isSeleected ? "Selected" : "Choose Player"}</button>
                 </div>
             </div>
         </div>

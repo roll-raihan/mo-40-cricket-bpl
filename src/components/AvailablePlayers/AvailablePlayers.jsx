@@ -2,15 +2,15 @@ import React, { use } from 'react';
 
 import PlayerCard from '../PlayerCard/PlayerCard';
 
-const AvailablePlayers = ({ playersData }) => {
+const AvailablePlayers = ({ playersData, setAvailableBalance, availableBalance }) => {
 
     const playerInfo = use(playersData);
-    console.log(playerInfo);
+    // console.log(playerInfo);
 
     return (
         <div className='max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4'>
             {
-                playerInfo.map(player => <PlayerCard player={player}></PlayerCard>)
+                playerInfo.map(player => <PlayerCard availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} player={player}></PlayerCard>)
             }
 
         </div>

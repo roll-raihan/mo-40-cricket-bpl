@@ -10,10 +10,13 @@ const fetchData = async () => {
   return res.json()
 }
 
+const playersData = fetchData();
 function App() {
 
   const [toggle, setToggle] = useState(true);
-  const playersData = fetchData();
+
+
+  const [availableBalance, setAvailableBalance] = useState(800000);
 
   return (
 
@@ -23,13 +26,13 @@ function App() {
           <a className="text-xl"><img className='w-[60px] h-[60px]' src={navImg} alt="" /></a>
         </div>
         <div className='flex items-center'>
-          <span className='mr-1 font-bold'>60000000</span>
+          <span className='mr-1 font-bold'>{availableBalance}</span>
           <span className='mr-1 font-bold'> Coin</span>
           <img src={coinImg} alt="" />
         </div>
       </div>
       <div className='max-w-[1200px] mx-auto flex justify-between items-center'>
-        <h1>Available Player</h1>
+        <h1 className='font-bold'>Available Player</h1>
         <div>
           <button onClick={() => setToggle(true)} className={`py-3 px-4 border-1 border-gray-400 rounded-l-2xl border-r-0 text-xl ${toggle === true ? "bg-[#E7FE29] text-black" : ""} `}>
             Available
@@ -41,7 +44,7 @@ function App() {
       </div>
       {
         toggle === true ? <Suspense fallback={<span className="loading loading-spinner loading-xl"></span>}>
-          <AvailablePlayers playersData={playersData}></AvailablePlayers>
+          <AvailablePlayers availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} playersData={playersData}></AvailablePlayers>
         </Suspense> : <SelectedPlayers></SelectedPlayers>
       }
 
