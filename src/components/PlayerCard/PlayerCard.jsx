@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import nameImg from '../../assets/user-1.png';
 import flagImg from '../../assets/report-1.png'
+import AvailablePlayers from '../AvailablePlayers/AvailablePlayers';
 
 const PlayerCard = ({ player, setAvailableBalance, availableBalance, purchasedPlayers, setPurchasedPlayers }) => {
     const [isSeleected, setIsSelected] = useState(false);
@@ -9,6 +10,10 @@ const PlayerCard = ({ player, setAvailableBalance, availableBalance, purchasedPl
         const playerPrice = parseInt(playerData.price.split("$").join("").split(",").join(""))
         if (availableBalance < playerPrice) {
             alert("Not sufficient coin!");
+            return
+        }
+        if (purchasedPlayers.length === 6) {
+            alert("6 Players already selected!");
             return
         }
         setIsSelected(true);
