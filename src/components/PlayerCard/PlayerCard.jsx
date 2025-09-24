@@ -2,8 +2,19 @@ import React, { useState } from 'react';
 import nameImg from '../../assets/user-1.png';
 import flagImg from '../../assets/report-1.png'
 
-const PlayerCard = ({ player, setAvailableBalance, availableBalance }) => {
+const PlayerCard = ({ player, setAvailableBalance, availableBalance, purchasedPlayers, setPurchasedPlayers }) => {
     const [isSeleected, setIsSelected] = useState(false);
+
+    const handleSelected = (playerData) => {
+        const playerPrice = parseInt(playerData.price.split("$").join("").split(",").join(""))
+        if (availableBalance < playerPrice) {
+            alert("Not sufficient coin!");
+            return
+        }
+        setIsSelected(true);
+        setAvailableBalance(availableBalance - playerPrice);
+        setPurchasedPlayers([...purchasedPlayers, playerData]);
+    }
     return (
         <div className="card bg-base-100 w-96 shadow-sm p-4 rounded-2xl">
             <figure>
@@ -30,14 +41,7 @@ const PlayerCard = ({ player, setAvailableBalance, availableBalance }) => {
                 </div>
                 <div className="flex justify-between items-center mt-2">
                     <p className='font-bold'>Price: {player.price}</p>
-                    <button disabled={isSeleected} onClick={() => {
-                        if(availableBalance<player.price.split("$").join("").split(",").join("")){
-                            alert("Not sufficient coin!");
-                            return
-                        }
-                        setIsSelected(true);
-                        setAvailableBalance(availableBalance - player.price.split("$").join("").split(",").join(""))
-                    }} className='btn border-none'>{isSeleected ? "Selected" : "Choose Player"}</button>
+                    <button disabled={isSeleected} onClick={() => { handleSelected(player) }} className='btn border-none'>{isSeleected ? "Selected" : "Choose Player"}</button>
                 </div>
             </div>
         </div>

@@ -15,9 +15,15 @@ function App() {
 
   const [toggle, setToggle] = useState(true);
 
-
   const [availableBalance, setAvailableBalance] = useState(800000);
 
+  const [purchasedPlayers, setPurchasedPlayers] = useState([]);
+
+  const removePlayer = (p) => {
+    console.log(p);
+  }
+
+  //console.log(purchasedPlayers)
   return (
 
     <>
@@ -32,20 +38,20 @@ function App() {
         </div>
       </div>
       <div className='max-w-[1200px] mx-auto flex justify-between items-center'>
-        <h1 className='font-bold'>Available Player</h1>
+        <h1 className='font-bold'>{toggle === true ? "Available Players" : `Selected PLayers(${purchasedPlayers.length}/6)`}</h1>
         <div>
           <button onClick={() => setToggle(true)} className={`py-3 px-4 border-1 border-gray-400 rounded-l-2xl border-r-0 text-xl ${toggle === true ? "bg-[#E7FE29] text-black" : ""} `}>
             Available
           </button>
           <button onClick={() => setToggle(false)} className={`py-3 px-4 border-1 border-gray-400 rounded-r-2xl border-l-0 text-xl ${toggle === false ? "bg-[#E7FE29] text-black" : ""}  `}>
-            Selected
+            Selected <span>({purchasedPlayers.length})</span>
           </button>
         </div>
       </div>
       {
         toggle === true ? <Suspense fallback={<span className="loading loading-spinner loading-xl"></span>}>
-          <AvailablePlayers availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} playersData={playersData}></AvailablePlayers>
-        </Suspense> : <SelectedPlayers></SelectedPlayers>
+          <AvailablePlayers purchasedPlayers={purchasedPlayers} setPurchasedPlayers={setPurchasedPlayers} availableBalance={availableBalance} setAvailableBalance={setAvailableBalance} playersData={playersData}></AvailablePlayers>
+        </Suspense> : <SelectedPlayers removePlayer={removePlayer} purchasedPlayers={purchasedPlayers}></SelectedPlayers>
       }
 
     </>
